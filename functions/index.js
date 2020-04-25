@@ -1,18 +1,16 @@
 const functions = require('firebase-functions');
-var admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
 
-var database = admin.database();
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
- exports.hello = functions.https.onRequest((request, response) => {
-  
-	let params = request.body.result.parameters;
-	database.ref().set(params);
+const admin = require('firebase-admin')
+admin.initializeApp(functions.config().firebase);
+const database = admin.database();
+exports.helloiot = functions.https.onRequest(async(request, response) => {
+    let params = request.body.queryResult.parameters;
+    console.log("params are ", params)
 
-	response.send({
+    await database.ref().update(params)
 
-	speech: "Light controlled successfully"
+ response.send("Hello from Google Asistant IOT bot!");
 });
- });
